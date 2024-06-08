@@ -1,4 +1,5 @@
 model:
+  token: "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"
   name: "meta-llama/Llama-2-7b-chat-hf"
   checkpoint: "trung0209/rumi_new"
   device: "cuda"

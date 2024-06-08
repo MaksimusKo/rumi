@@ -5,7 +5,6 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
 import torch
 import yaml
-
 # Загрузка конфигурации из YAML файла
 with open ("config.yaml", "r") as f:
     config = yaml.safe_load (f)
@@ -17,6 +16,7 @@ app = FastAPI ()
 base_model = AutoModelForCausalLM.from_pretrained (
     config['model']['name'],
     trust_remote_code=True,
+    use_auth_token=config['model']['token'],
     device_map="auto",
     torch_dtype=eval (config['model']['dtype']),
     load_in_4bit=config['model']['load_in_4bit']
