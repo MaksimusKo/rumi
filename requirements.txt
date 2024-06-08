@@ -1,0 +1,7 @@
+fastapi==0.95.0
+uvicorn==0.22.0
+pyyaml==6.0
+accelerate
+transformers==4.31.0
+peft==0.3.0
+bitsandbytes==0.39.1

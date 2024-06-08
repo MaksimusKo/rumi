@@ -1,0 +1,10 @@
+model:
+  name: "meta-llama/Llama-2-7b-chat-hf"
+  checkpoint: "trung0209/rumi_new"
+  device: "cuda"
+  dtype: "torch.bfloat16"
+  load_in_4bit: true
+
+server:
+  host: "0.0.0.0"
+  port: 8000
