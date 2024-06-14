@@ -82,6 +82,13 @@ Start Apache:
 sudo systemctl start apache2
 ```
 
+**Ensure that the `proxy` and `proxy_http` modules are enabled:**
+
+```bash
+sudo a2enmod proxy
+sudo a2enmod proxy_http
+```
+
 ### 5. Checking Apache Status
 
 Verify that Apache is running:
@@ -162,13 +169,6 @@ Ensure the configuration includes correct settings for proxying requests to your
         Require all granted
     </Directory>
 </VirtualHost>
-```
-
-**Ensure that the `proxy` and `proxy_http` modules are enabled:**
-
-```bash
-sudo a2enmod proxy
-sudo a2enmod proxy_http
 ```
 
 Restart Apache after making changes:
