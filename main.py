@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -8,21 +9,36 @@ import yaml
 # Загрузка конфигурации из YAML файла
 with open ("config.yaml", "r") as f:
     config = yaml.safe_load (f)
+from huggingface_hub import login
+login(token="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")
 
 # Инициализация FastAPI
 app = FastAPI ()
+origins = [
+    "*",
+]
+
+# Добавьте CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Разрешенные источники
+    allow_credentials=True,
+    allow_methods=["*"],  # Разрешенные методы (GET, POST, ...)
+    allow_headers=["*"],  # Разрешенные заголовки
+)
 
 # Инициализация модели и токенизатора с использованием конфигурации из YAML файла
 base_model = AutoModelForCausalLM.from_pretrained (
     config['model']['name'],
     trust_remote_code=True,
-    use_auth_token=config['model']['token'],
     device_map="auto",
     torch_dtype=eval (config['model']['dtype']),
-    load_in_4bit=config['model']['load_in_4bit']
+    load_in_4bit=config['model']['load_in_4bit'],
+use_safetensors=True
 )
 tokenizer = AutoTokenizer.from_pretrained (config['model']['name'], trust_remote_code=True)
-model = PeftModel.from_pretrained (base_model, config['model']['checkpoint']).to (config['model']['device'])
+model = PeftModel.from_pretrained(base_model,"trung0209/rumi_new")
+model = model.to("cuda")
 
 
 # Модель данных для входного сообщения
